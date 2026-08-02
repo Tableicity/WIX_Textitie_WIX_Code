@@ -8,6 +8,7 @@ import {
   OptOutLeadResponse,
   OptOutLeadParams,
 } from "@workspace/api-zod";
+import { notifyNewLead } from "../lib/notify.js";
 
 const router: IRouter = Router();
 
@@ -44,6 +45,10 @@ router.post("/leads", async (req, res) => {
     .values({ phone, source: parsed.data.source ?? "unknown" })
     .returning();
   req.log.info({ leadId: lead.id, source: lead.source }, "lead captured");
+
+  // Fire-and-forget notification — failures must not block the response.
+  notifyNewLead(lead).catch(() => {});
+
   res.status(201).json(CreateLeadResponse.parse(lead));
 });
 
