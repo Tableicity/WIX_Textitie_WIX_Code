@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://simplify-messaging.replit.app/sitemap.xml
