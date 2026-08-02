@@ -34,8 +34,6 @@ export function Hero() {
 
   return (
     <section id="hero" className="pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden relative border-b border-border/50">
-      {/* Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
