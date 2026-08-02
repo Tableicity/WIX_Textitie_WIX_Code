@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Play, Sparkles, MessageSquare, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { DemoModal } from "@/components/sections/DemoModal";
 
 export function Hero() {
+  const [demoOpen, setDemoOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -74,7 +76,7 @@ export function Hero() {
           </Reveal>
           
           <Reveal delay={0.4} className="pt-4 flex items-center justify-center lg:justify-start gap-6 text-sm font-medium">
-            <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group">
+            <button onClick={() => setDemoOpen(true)} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group">
               <div className="w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:text-primary transition-all">
                 <Play className="w-4 h-4 ml-0.5" />
               </div>
@@ -137,6 +139,7 @@ export function Hero() {
           </Reveal>
         </div>
       </div>
+      <DemoModal open={demoOpen} onOpenChange={setDemoOpen} />
     </section>
   );
 }
