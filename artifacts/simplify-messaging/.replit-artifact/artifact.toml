@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Simplify Messaging"
+description = "A conversion-focused, single-page marketing website for Simplify Messaging, a business SMS platform powered by the SmartSquawk AI engine. Dark-mode design with smooth-scroll navigation, positioning the product as the intelligent successor to legacy text systems like Textline."
+version = "1.0.0"
+id = "artifacts/simplify-messaging"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19631
+
+[services.development]
+run = "pnpm --filter @workspace/simplify-messaging run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/simplify-messaging", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/simplify-messaging/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19631"
+BASE_PATH = "/"

@@ -1,0 +1,150 @@
+Menu Items (Scroll-to links): Features | Knowledge Base | Multi-Agent Inbox | Mass Campaigns | AnalyticsCall-to-Action Button: Get Started (Accent color)2. Hero Section (#hero)Main Headline: Textline doesn’t think. SmartSquawk does.Subheadline: The first business text inbox trained entirely on your brand. Stop wasting human labor on repetitive replies. Deploy an LLM-powered Auto-Pilot that texts like an expert, or run on Co-Pilot to draft lightning-fast, brand-safe answers for your human team.Primary CTA: Import Your LeadsSecondary CTA: Watch DemoVisual Element: Create a modern card layout representing a clean SMS chat interface. Show an inbound customer message, a typing state showing "SmartSquawk Auto-Pilot processing...", and a highly accurate text response populated from a simulated company knowledge base.3. Core Features Section (#features)Section Header: The Autonomous Text InfrastructureFeature Card 1 — Auto-Pilot Engine: Fully autonomous 1-to-1 customer texting. The LLM handles inquiries, schedules bookings, and answers complex product questions 24/7 without human intervention.Feature Card 2 — Co-Pilot Interface: Human-in-the-loop assistance. The system reads incoming texts and instantly drafts context-aware, hyper-accurate replies. Agents click once to edit, approve, and send.Feature Card 3 — Advanced Automations: Build logic-based trigger workflows. Send automated customer reminders, follow-ups, and behavioral sequence messages based on text tags.4. The Knowledge & Onboarding Engine (#knowledge)Section Header: The "Professor + Human" BrainSub-text: Bland engines give you a blank slate. SmartSquawk builds a custom brand asset in under 5 minutes.Visual Interaction: Design a simulated onboarding card showing three upload slots:[🔗 Add Website URL] -> Scrapes and vectorizes your site layout instantly.[📄 Upload Document/PDF] -> Ingests complex pricing matrix tables and catalog sheets.[🎓 Professor Layer Alignment] -> Applies hard compliance guardrails so the LLM never hallucinates.5. Enterprise Multi-Agent Inbox (#multi-agent)Section Header: Scale Across Departments. Retain Control.Grid Layout:Multi-Department Routing: Segment incoming texts into Sales, Support, or Billing automatically based on customer intent.Granular Agent Roles: Assign custom permission tiers for Managers, Supervisors, and Frontline Reps.Claim & Release Mechanics: Prevent duplicate work. Human agents can instantly "Claim" an active conversation thread out of the AI queue, pause the Auto-Pilot, resolve the issue, and "Release" it back to the system.6. Mass High-Volume Campaigns (#mass-campaigns)Section Header: From 1 to 1,000,000 Messages. Zero Friction.Description: Upload massive contact segments and blast personalized campaigns. The engine automatically handles variables (Names, past context) and routes replies straight back into individual agent dashboards.Compliance Element: Explicitly display a badge labeled "Carrier-Grade Suppression & Instant Opt-Out Compliance Layer Built-In".7. Analytics & Insights Dashboard (#analytics)Section Header: Operational IntelligenceLayout Elements: Replicate three visual statistic boxes:AI Auto-Resolution Rate: 84.2% (How many threads the text engine closed completely on its own).Response Latency: < 1.2 Seconds (Average time from customer text to smart response).Sentiment Drift Chart: A visual line map showing real-time customer satisfaction metrics across open conversations.8. Footer SectionContent: Copyright 2026 SmartSquawk Inc. All rights reserved.Links: Privacy Policy | Terms of Service | Developer API Documentation.🎨 Component Requirements for Replit CodebaseInteractivity: Ensure smooth-scroll functionality is mapped across all navigation links.Animations: Use subtle slide-in tracking transitions as the user scrolls past the features and onboarding layout cards.Form Capture: Include a functional text field in the Hero and Footer sections for [Enter your phone number to text a live demo agent].Would you like me to write out a complete HTML/Tailwind CSS boilerplate file containing these precise layout specs that you can drop directly into your Replit file explorer?Yeshtml<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSquawk | The Intelligent successor to Textline</title>
+    <script src="https://tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBg: '#0b0f19',
+                        brandCard: '#131a26',
+                        brandAccent: '#06b6d4', // Electric Teal
+                        brandAccentHover: '#0891b2',
+                        brandTextMuted: '#94a3b8'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-brandBg text-white antialiased selection:bg-brandAccent selection:text-brandBg">
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 bg-brandBg/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2 text-xl font-bold tracking-tight text-white">
+                <span class="text-brandAccent">Smart</span>Squawk <span class="text-xs font-mono uppercase bg-cyan-950 text-brandAccent border border-cyan-800 px-2 py-0.5 rounded-full">v2.0</span>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-brandTextMuted">
+                <a href="#features" class="hover:text-brandAccent transition-colors">Features</a>
+                <a href="#knowledge" class="hover:text-brandAccent transition-colors">Knowledge Base</a>
+                <a href="#multi-agent" class="hover:text-brandAccent transition-colors">Multi-Agent Inbox</a>
+                <a href="#mass-campaigns" class="hover:text-brandAccent transition-colors">Mass Campaigns</a>
+                <a href="#analytics" class="hover:text-brandAccent transition-colors">Analytics</a>
+            </nav>
+            <div>
+                <a href="#hero" class="bg-brandAccent text-brandBg px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brandAccentHover transition-colors shadow-lg shadow-cyan-500/10">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Hero Section -->
+        <section id="hero" class="py-20 lg:py-32 grid lg:grid-cols-12 gap-12 items-center border-b border-gray-800">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center space-x-2 bg-gray-900 border border-gray-800 px-3 py-1 rounded-full text-xs font-medium text-brandAccent">
+                    <span>⚡ AI Omni-Channel Update Live</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                    Textline doesn’t think.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r content-box from-brandAccent to-blue-400">SmartSquawk does.</span>
+                </h1>
+                <p class="text-lg text-brandTextMuted max-w-2xl">
+                    The first business text inbox trained entirely on your brand. Stop wasting human labor on repetitive replies. Deploy an LLM-powered Auto-Pilot that texts like an expert, or run on Co-Pilot to draft lightning-fast, brand-safe answers for your human team.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <input type="text" placeholder="Enter your business mobile..." class="bg-brandCard border border-gray-700 px-4 py-3 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-brandAccent w-full sm:max-w-xs text-sm">
+                    <button class="bg-brandAccent text-brandBg font-semibold px-6 py-3 rounded-lg text-sm hover:bg-brandAccentHover transition-colors whitespace-nowrap shadow-md">
+                        Import Your Leads
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Simulated SMS Chat Interface Asset -->
+            <div class="lg:col-span-5 bg-brandCard border border-gray-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="flex items-center justify-between pb-4 border-b border-gray-800 mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="h-3 w-3 bg-green-500 rounded-full"></div>
+                        <div class="text-sm font-semibold">Active Session: #09214</div>
+                    </div>
+                    <span class="text-xs font-mono text-brandAccent bg-cyan-950 px-2 py-0.5 rounded border border-cyan-900">Auto-Pilot Mode</span>
+                </div>
+                <div class="space-y-4 text-sm h-64 overflow-y-auto pr-1">
+                    <div class="bg-gray-800 rounded-lg p-3 max-w-[85%] text-gray-200">
+                        Hey there, I read your catalog online. Do you offer bulk discount options for the Enterprise Widget line?
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs text-brandTextMuted italic pl-2">
+                        <span>SmartSquawk Auto-Pilot processing document context...</span>
+                    </div>
+                    <div class="bg-cyan-950 border border-cyan-800/40 rounded-lg p-3 max-w-[85%] ml-auto text-cyan-100">
+                        Yes, we do! Based on our catalog sheets, orders over 500 units receive a 15% discount. Would you like me to send over our wholesale pricing structure grid via text?
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features Section -->
+        <section id="features" class="py-20 border-b border-gray-800 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">The Autonomous Text Infrastructure</h2>
+                <p class="text-brandTextMuted">Enterprise messaging re-engineered with specialized LLM execution layers.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-brandCard border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-colors space-y-4">
+                    <div class="h-10 w-10 bg-cyan-950 text-brandAccent border border-cyan-800 flex items-center justify-center rounded-lg text-lg font-bold">🤖</div>
+                    <h3 class="text-xl font-bold">Auto-Pilot Engine</h3>
+                    <p class="text-sm text-brandTextMuted leading-relaxed">
+                        Fully autonomous 1-to-1 customer texting. The LLM handles inquiries, schedules bookings, and answers complex product questions 24/7 without human intervention.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-brandCard border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-colors space-y-4">
+                    <div class="h-10 w-10 bg-cyan-950 text-brandAccent border border-cyan-800 flex items-center justify-center rounded-lg text-lg font-bold">⚡</div>
+                    <h3 class="text-xl font-bold">Co-Pilot Interface</h3>
+                    <p class="text-sm text-brandTextMuted leading-relaxed">
+                        Human-in-the-loop assistance. The system reads incoming texts and instantly drafts context-aware, hyper-accurate replies. Agents click once to edit, approve, and send.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-brandCard border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-colors space-y-4">
+                    <div class="h-10 w-10 bg-cyan-950 text-brandAccent border border-cyan-800 flex items-center justify-center rounded-lg text-lg font-bold">⚙️</div>
+                    <h3 class="text-xl font-bold">Advanced Automations</h3>
+                    <p class="text-sm text-brandTextMuted leading-relaxed">
+                        Build logic-based trigger workflows. Send automated customer reminders, follow-ups, and behavioral sequence messages based on text tags.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Knowledge & Onboarding Engine -->
+        <section id="knowledge" class="py-20 border-b border-gray-800 scroll-mt-20">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">The "Professor + Human" Brain</h2>
+                    <p class="text-brandTextMuted leading-relaxed">
+                        Bland engines give you a blank slate. SmartSquawk builds a custom brand asset in under 5 minutes. Scrape websites and ingest product data natively.
+                    </p>
+                    <div class="space-y-3 font-medium text-sm">
+                        <div class="flex items-center space-x-3 text-cyan-400">
+                            <span>✓</span> <span class="text-white">Zero custom database development required</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-cyan-400">
+                            <span>✓</span> <span class="text-white">Continuous real-time asset syncing</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-7 bg-brandCard border border-gray-800 rounded-xl p-6 space-y-4">
+Use code with caution.

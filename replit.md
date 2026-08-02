@@ -1,6 +1,6 @@
-# [Project name]
+# Simplify Messaging
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Single-page dark-mode marketing site for Simplify Messaging, a business SMS platform powered by the SmartSquawk AI engine, positioned against legacy tools like Textline. Frontend-only (`artifacts/simplify-messaging`, served at `/`); phone-capture forms are client-side mock submissions.
 
 ## Run & Operate
 
