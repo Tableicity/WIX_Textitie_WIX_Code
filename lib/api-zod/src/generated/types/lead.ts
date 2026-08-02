@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface Lead {
+  id: number;
+  phone: string;
+  source: string;
+  optedOut: boolean;
+  createdAt: Date;
 }

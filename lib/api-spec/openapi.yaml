@@ -10,7 +10,79 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: leads
+    description: Demo request leads
 paths:
+  /leads:
+    post:
+      operationId: createLead
+      tags: [leads]
+      summary: Submit a demo request lead
+      description: Validates and stores a phone number as a demo request lead. Duplicate submissions are accepted idempotently.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeadRequest"
+      responses:
+        "201":
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "200":
+          description: Lead already existed (duplicate submission)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "400":
+          description: Invalid phone number
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      operationId: listLeads
+      tags: [leads]
+      summary: List captured leads
+      description: Returns all captured leads, newest first.
+      responses:
+        "200":
+          description: List of leads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+  /leads/{id}/opt-out:
+    post:
+      operationId: optOutLead
+      tags: [leads]
+      summary: Opt a lead out
+      description: Marks a lead as opted out so they are not contacted.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Lead updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "404":
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /healthz:
     get:
       operationId: healthCheck
@@ -26,6 +98,47 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    CreateLeadRequest:
+      type: object
+      properties:
+        phone:
+          type: string
+          minLength: 7
+          maxLength: 20
+          description: Phone number in any common format
+        source:
+          type: string
+          enum: [hero, footer]
+          description: Which form the lead came from
+      required:
+        - phone
+    Lead:
+      type: object
+      properties:
+        id:
+          type: number
+        phone:
+          type: string
+        source:
+          type: string
+        optedOut:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - phone
+        - source
+        - optedOut
+        - createdAt
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
     HealthStatus:
       type: object
       properties:

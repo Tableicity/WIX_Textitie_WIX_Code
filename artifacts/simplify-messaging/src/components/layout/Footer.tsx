@@ -2,18 +2,30 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, MessageSquare } from "lucide-react";
+import { useCreateLead } from "@workspace/api-client-react";
 
 export function Footer() {
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const createLead = useCreateLead();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length > 5) {
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
-      setPhone("");
-    }
+    setError(null);
+    createLead.mutate(
+      { data: { phone, source: "footer" } },
+      {
+        onSuccess: () => {
+          setSubmitted(true);
+          setTimeout(() => setSubmitted(false), 3000);
+          setPhone("");
+        },
+        onError: (err) => {
+          setError(err?.data?.error ?? "Something went wrong. Please try again.");
+        },
+      },
+    );
   };
 
   return (
@@ -47,11 +59,12 @@ export function Footer() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
-              <Button type="submit" className="shrink-0">
+              <Button type="submit" disabled={createLead.isPending} className="shrink-0">
                 {submitted ? <CheckCircle2 className="w-4 h-4" /> : <MessageSquare className="w-4 h-4 mr-2" />}
-                {submitted ? "Sent" : "Demo"}
+                {submitted ? "Sent" : createLead.isPending ? "..." : "Demo"}
               </Button>
             </form>
+            {error && <p className="text-xs text-destructive mt-2">{error}</p>}
           </div>
         </div>
 

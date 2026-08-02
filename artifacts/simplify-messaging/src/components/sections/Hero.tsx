@@ -5,19 +5,31 @@ import { Input } from "@/components/ui/input";
 import { Play, Sparkles, MessageSquare, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { DemoModal } from "@/components/sections/DemoModal";
+import { useCreateLead } from "@workspace/api-client-react";
 
 export function Hero() {
   const [demoOpen, setDemoOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const createLead = useCreateLead();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length > 5) {
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
-      setPhone("");
-    }
+    setError(null);
+    createLead.mutate(
+      { data: { phone, source: "hero" } },
+      {
+        onSuccess: () => {
+          setSubmitted(true);
+          setTimeout(() => setSubmitted(false), 3000);
+          setPhone("");
+        },
+        onError: (err) => {
+          setError(err?.data?.error ?? "Something went wrong. Please try again.");
+        },
+      },
+    );
   };
 
   return (
@@ -62,14 +74,19 @@ export function Hero() {
                   required
                 />
               </div>
-              <Button type="submit" size="lg" className="h-12 px-8 text-base shadow-[0_0_20px_rgba(6,182,212,0.4)] whitespace-nowrap">
+              <Button type="submit" size="lg" disabled={createLead.isPending} className="h-12 px-8 text-base shadow-[0_0_20px_rgba(6,182,212,0.4)] whitespace-nowrap">
                 {submitted ? (
                   <span className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5" /> Connecting...</span>
+                ) : createLead.isPending ? (
+                  "Sending..."
                 ) : (
                   "Import Your Leads"
                 )}
               </Button>
             </form>
+            {error && (
+              <p className="text-xs text-destructive mt-3 text-center lg:text-left">{error}</p>
+            )}
             <p className="text-xs text-muted-foreground mt-3 flex items-center justify-center lg:justify-start gap-1">
               <MessageSquare className="w-3 h-3" /> Enter your phone number to text a live demo agent.
             </p>

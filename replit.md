@@ -1,6 +1,6 @@
 # Simplify Messaging
 
-Single-page dark-mode marketing site for Simplify Messaging, a business SMS platform powered by the SmartSquawk AI engine, positioned against legacy tools like Textline. Frontend-only (`artifacts/simplify-messaging`, served at `/`); phone-capture forms are client-side mock submissions.
+Single-page dark-mode marketing site for Simplify Messaging, a business SMS platform powered by the SmartSquawk AI engine, positioned against legacy tools like Textline. Frontend (`artifacts/simplify-messaging`, served at `/`) plus Express API (`artifacts/api-server`, served at `/api`). Phone-capture forms in the hero and footer persist leads via `POST /api/leads` (validated, normalized, deduped by phone); captured leads are viewable at `/leads` with per-lead opt-out.
 
 ## Run & Operate
 
