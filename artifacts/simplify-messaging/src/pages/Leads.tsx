@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useListLeads,
@@ -5,12 +6,64 @@ import {
   getListLeadsQueryKey,
 } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
-import { BellOff, MessageSquare, Users } from "lucide-react";
+import { BellOff, MessageSquare, Users, Lock } from "lucide-react";
 
-export default function Leads() {
-  const { data: leads, isLoading, isError } = useListLeads();
+const STORAGE_KEY = "leads_token";
+
+function TokenGate({ onToken }: { onToken: (t: string) => void }) {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmed = value.trim();
+    if (!trimmed) { setError(true); return; }
+    sessionStorage.setItem(STORAGE_KEY, trimmed);
+    onToken(trimmed);
+  }
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
+            <Lock className="w-5 h-5" />
+          </div>
+          <h1 className="text-2xl font-bold font-display">Team access only</h1>
+        </div>
+        <p className="text-muted-foreground text-sm mb-6">
+          Enter the leads access token to view captured demo requests.
+        </p>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            autoComplete="current-password"
+            placeholder="Access token"
+            value={value}
+            onChange={(e) => { setValue(e.target.value); setError(false); }}
+            className={`w-full rounded-lg border bg-card px-4 py-2.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary ${
+              error ? "border-destructive" : "border-border"
+            }`}
+          />
+          {error && (
+            <p className="text-xs text-destructive">Token is required.</p>
+          )}
+          <Button type="submit" className="w-full">Unlock</Button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function LeadsList({ token }: { token: string }) {
   const queryClient = useQueryClient();
+
+  const { data: leads, isLoading, isError } = useListLeads({
+    request: { headers: { Authorization: `Bearer ${token}` } },
+  });
+
   const optOut = useOptOutLead({
+    request: { headers: { Authorization: `Bearer ${token}` } },
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getListLeadsQueryKey() });
@@ -18,23 +71,53 @@ export default function Leads() {
     },
   });
 
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <div className="text-center space-y-3">
+          <p className="text-destructive font-medium">Invalid token or server error.</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              sessionStorage.removeItem(STORAGE_KEY);
+              window.location.reload();
+            }}
+          >
+            Try again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
-            <Users className="w-5 h-5" />
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
+              <Users className="w-5 h-5" />
+            </div>
+            <h1 className="text-3xl font-bold font-display">Captured Leads</h1>
           </div>
-          <h1 className="text-3xl font-bold font-display">Captured Leads</h1>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs text-muted-foreground"
+            onClick={() => {
+              sessionStorage.removeItem(STORAGE_KEY);
+              window.location.reload();
+            }}
+          >
+            Sign out
+          </Button>
         </div>
         <p className="text-muted-foreground text-sm mb-8">
           Demo requests submitted through the site, newest first.
         </p>
 
         {isLoading && <p className="text-muted-foreground">Loading leads…</p>}
-        {isError && (
-          <p className="text-destructive">Failed to load leads. Is the API server running?</p>
-        )}
         {leads && leads.length === 0 && (
           <div className="border border-border/50 rounded-2xl p-10 text-center text-muted-foreground">
             <MessageSquare className="w-6 h-6 mx-auto mb-3 opacity-50" />
@@ -79,4 +162,12 @@ export default function Leads() {
       </div>
     </div>
   );
+}
+
+export default function Leads() {
+  const saved = sessionStorage.getItem(STORAGE_KEY) ?? "";
+  const [token, setToken] = useState(saved);
+
+  if (!token) return <TokenGate onToken={setToken} />;
+  return <LeadsList token={token} />;
 }

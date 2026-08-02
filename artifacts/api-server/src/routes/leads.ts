@@ -9,6 +9,7 @@ import {
   OptOutLeadParams,
 } from "@workspace/api-zod";
 import { notifyNewLead } from "../lib/notify.js";
+import { requireLeadsToken } from "../middlewares/requireLeadsToken";
 
 const router: IRouter = Router();
 
@@ -52,7 +53,7 @@ router.post("/leads", async (req, res) => {
   res.status(201).json(CreateLeadResponse.parse(lead));
 });
 
-router.get("/leads", async (_req, res) => {
+router.get("/leads", requireLeadsToken, async (_req, res) => {
   const leads = await db
     .select()
     .from(leadsTable)
@@ -60,7 +61,7 @@ router.get("/leads", async (_req, res) => {
   res.json(leads.map((l) => ListLeadsResponseItem.parse(l)));
 });
 
-router.post("/leads/:id/opt-out", async (req, res) => {
+router.post("/leads/:id/opt-out", requireLeadsToken, async (req, res) => {
   const params = OptOutLeadParams.safeParse(req.params);
   if (!params.success) {
     res.status(404).json({ error: "Lead not found" });
