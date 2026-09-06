@@ -1,36 +1,11 @@
 import { useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Play, Sparkles, MessageSquare, CheckCircle2 } from "lucide-react";
+import { Play, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { DemoModal } from "@/components/sections/DemoModal";
-import { useCreateLead } from "@workspace/api-client-react";
 
 export function Hero() {
   const [demoOpen, setDemoOpen] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const createLead = useCreateLead();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    createLead.mutate(
-      { data: { phone, source: "hero" } },
-      {
-        onSuccess: () => {
-          setSubmitted(true);
-          setTimeout(() => setSubmitted(false), 3000);
-          setPhone("");
-        },
-        onError: (err) => {
-          setError(err?.data?.error ?? "Something went wrong. Please try again.");
-        },
-      },
-    );
-  };
 
   return (
     <section id="hero" className="pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden relative border-b border-border/50">
@@ -60,37 +35,7 @@ export function Hero() {
             </p>
           </Reveal>
           
-          <Reveal delay={0.3}>
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto lg:mx-0">
-              <div className="relative flex-1">
-                <Input 
-                  type="tel" 
-                  placeholder="Enter your phone number..." 
-                  className="h-12 pl-4 pr-4 bg-card/50 backdrop-blur-sm border-border/50 focus:border-primary w-full"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" size="lg" disabled={createLead.isPending} className="h-12 px-8 text-base shadow-[0_0_20px_rgba(6,182,212,0.4)] whitespace-nowrap">
-                {submitted ? (
-                  <span className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5" /> Connecting...</span>
-                ) : createLead.isPending ? (
-                  "Sending..."
-                ) : (
-                  "Import Your Leads"
-                )}
-              </Button>
-            </form>
-            {error && (
-              <p className="text-xs text-destructive mt-3 text-center lg:text-left">{error}</p>
-            )}
-            <p className="text-xs text-muted-foreground mt-3 flex items-center justify-center lg:justify-start gap-1">
-              <MessageSquare className="w-3 h-3" /> Enter your phone number to text a live demo agent.
-            </p>
-          </Reveal>
-          
-          <Reveal delay={0.4} className="pt-4 flex items-center justify-center lg:justify-start gap-6 text-sm font-medium">
+          <Reveal delay={0.3} className="pt-2 flex items-center justify-center lg:justify-start gap-6 text-sm font-medium">
             <button onClick={() => setDemoOpen(true)} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group">
               <div className="w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:text-primary transition-all">
                 <Play className="w-4 h-4 ml-0.5" />
